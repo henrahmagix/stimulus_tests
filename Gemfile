@@ -14,3 +14,5 @@ gem "rubocop-rails-omakase", require: false
 # gem "debug", ">= 1.0.0"
 
 gem "importmap-rails", "~> 2.1"
+
+gem "stimulus-rails", "~> 1.3"
