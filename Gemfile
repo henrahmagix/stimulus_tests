@@ -16,3 +16,5 @@ gem "rubocop-rails-omakase", require: false
 gem "importmap-rails", "~> 2.1"
 
 gem "stimulus-rails", "~> 1.3"
+
+gem "propshaft", "~> 1.1"
