@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Stimulus::HelloControllers" do
+RSpec.describe "Stimulus::HelloController" do
   before { driven_by(:selenium, using: :headless_chrome, screen_size: [ 1400, 1400 ]) }
 
   scenario "visiting the root" do

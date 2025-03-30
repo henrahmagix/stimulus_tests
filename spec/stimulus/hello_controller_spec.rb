@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.feature "Stimulus::HelloControllers" do
+RSpec.feature "Stimulus::HelloController" do
   context "without any specific configuration" do
     it "visits the correct path" do
       render_stimulus("<p>Testing</p>")
@@ -40,6 +40,19 @@ RSpec.feature "Stimulus::HelloControllers" do
       refute_application_layout
 
       assert_text "Hello World!"
+    end
+
+    context "where entry point is controllers" do
+      layout nil
+      importmap_entry_point "controllers"
+
+      it "tests the Hello controller with HTML string in an empty layout but with the correct entry point" do
+        render_stimulus("<p data-controller=hello>Initial text</p>")
+
+        refute_application_layout
+
+        assert_text "Hello World!"
+      end
     end
   end
 
