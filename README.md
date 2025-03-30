@@ -1,8 +1,32 @@
 # StimulusTests
-Short description and motivation.
+
+Test your Stimulus controllers in Rails!
 
 ## Usage
-How to use my plugin.
+
+Given the default Stimulus controller made by `bin/rails stimulus:install`:
+
+### Rails
+```rb
+require "stimulus_tests"
+
+class HelloStimulusControllerTest < ApplicationSystemTestCase
+  include StimulusTests::DSL
+
+  layout nil
+  importmap_entry_point "application"
+
+  test "runs my controllers" do
+    visit_html("<p data-controller=hello>Initial text</p>")
+
+    assert_text "Hello World!"
+  end
+end
+```
+
+### RSpec
+
+_todo!_
 
 ## Installation
 Add this line to your application's Gemfile:
