@@ -19,7 +19,7 @@ module StimulusTests
 
     def index
       unless self.class.prepared
-        raise VisitedOutsideStimulusTestError, "The StimulusTests route #{request.path.inspect} was visited without being setup correctly. Please use `visit_html` e.g. `visit_html { content_tag(:p, 'Some text') }`"
+        raise VisitedOutsideStimulusTestError, "The StimulusTests route #{request.path.inspect} was visited without being setup correctly. Please use `render_stimulus` e.g. `render_stimulus { content_tag(:p, 'Some text') }`"
       end
 
       view = ::ActionView::OutputBuffer.new

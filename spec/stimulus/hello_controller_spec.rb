@@ -3,14 +3,14 @@ require "rails_helper"
 RSpec.feature "Stimulus::HelloControllers" do
   context "without any specific configuration" do
     it "visits the correct path" do
-      visit_html("<p>Testing</p>")
+      render_stimulus("<p>Testing</p>")
 
       assert_equal "/_stimulus_tests", current_path
       assert_text "Testing"
     end
 
     it "does not run the stimulus controller" do
-      visit_html do
+      render_stimulus do
         content_tag(:p, "Initial text", data: { controller: "hello" })
       end
 
@@ -25,7 +25,7 @@ RSpec.feature "Stimulus::HelloControllers" do
     importmap_entry_point "application"
 
     it "tests the Hello controller with HTML string in an empty layout but with the correct entry point" do
-      visit_html("<p data-controller=hello>Initial text</p>")
+      render_stimulus("<p data-controller=hello>Initial text</p>")
 
       refute_application_layout
 
@@ -33,7 +33,7 @@ RSpec.feature "Stimulus::HelloControllers" do
     end
 
     it "tests the Hello controller with content_tag in an empty layout but with the correct entry point" do
-      visit_html do
+      render_stimulus do
         content_tag(:p, "Initial text", data: { controller: "hello" })
       end
 
@@ -47,7 +47,7 @@ RSpec.feature "Stimulus::HelloControllers" do
     layout "application"
 
     it "tests the Hello controller in the application layout where the entry point is already set correctly" do
-      visit_html do
+      render_stimulus do
         content_tag(:p, "Initial text", data: { controller: "hello" })
       end
 
@@ -61,7 +61,7 @@ RSpec.feature "Stimulus::HelloControllers" do
     layout nil
 
     it "tests the Hello controller" do
-      visit_html(layout: "application") do
+      render_stimulus(layout: "application") do
         content_tag(:p, "Initial text", data: { controller: "hello" })
       end
 
@@ -75,7 +75,7 @@ RSpec.feature "Stimulus::HelloControllers" do
     layout "application"
 
     it "tests the Hello controller with entry point" do
-      visit_html(layout: nil, importmap_entry_point: "application") do
+      render_stimulus(layout: nil, importmap_entry_point: "application") do
         content_tag(:p, "Initial text", data: { controller: "hello" })
       end
 
@@ -85,7 +85,7 @@ RSpec.feature "Stimulus::HelloControllers" do
     end
 
     it "does not work without the entry point because none of the js is loaded on the page" do
-      visit_html(layout: nil, importmap_entry_point: nil) do
+      render_stimulus(layout: nil, importmap_entry_point: nil) do
         content_tag(:p, "Initial text", data: { controller: "hello" })
       end
 

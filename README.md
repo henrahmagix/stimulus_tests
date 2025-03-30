@@ -21,7 +21,7 @@ class HelloStimulusControllerTest < ApplicationSystemTestCase
   importmap_entry_point "application"
 
   test "runs my controllers" do
-    visit_html("<p data-controller=hello>Initial text</p>")
+    render_stimulus("<p data-controller=hello>Initial text</p>")
 
     assert_text "Hello World!"
   end
@@ -55,7 +55,7 @@ require "rails_helper"
 
 RSpec.feature "Stimulus::HelloControllers" do
   it "runs my controllers" do
-    visit_html("<p data-controller=hello>Initial text</p>")
+    render_stimulus("<p data-controller=hello>Initial text</p>")
 
     assert_text "Hello World!"
   end
