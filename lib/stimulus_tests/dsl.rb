@@ -4,6 +4,18 @@ module StimulusTests
   module DSL
     extend ::ActiveSupport::Concern
 
+    class MissingTestFramework < StandardError; end
+
+    included do
+      if respond_to?(:teardown)
+        teardown { VisitController._teardown }
+      elsif defined?(RSpec) && respond_to?(:after)
+        after { VisitController._teardown }
+      else
+        raise MissingTestFramework, "StimulusTests::DSL cannot be included on #{self}: it expects a teardown method to be available."
+      end
+    end
+
     class_methods do
       def layout(layout)
         @layout = layout
@@ -32,10 +44,6 @@ module StimulusTests
       )
 
       visit ::Rails.application.config.stimulus_tests.route_path
-    end
-
-    included do
-      teardown { VisitController._teardown }
     end
 
     private
