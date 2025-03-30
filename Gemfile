@@ -21,3 +21,5 @@ gem "propshaft", "~> 1.1"
 
 gem "capybara", "~> 3.40", group: :test
 gem "selenium-webdriver", "~> 4.30", group: :test
+
+gem "rspec-rails", "~> 7.1", group: :test
