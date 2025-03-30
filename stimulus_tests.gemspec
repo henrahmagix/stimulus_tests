@@ -5,9 +5,9 @@ Gem::Specification.new do |spec|
   spec.version     = StimulusTests::VERSION
   spec.authors     = [ "Henry Blyth" ]
   spec.email       = [ "blyth.henry@gmail.com" ]
-  spec.homepage    = "https://example.com"
-  spec.summary     = "Summary of StimulusTests."
-  spec.description = "Description of StimulusTests."
+  spec.homepage    = "https://github.com/henrahmagix/stimulus_tests"
+  spec.summary     = "Test your Stimulus controllers in Rails!"
+  spec.description = "Provides a route in test environments by which you can render any HTML with an importmap entry point and assert on it with the usual browser finders and actions."
   spec.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the "allowed_push_host"
@@ -15,11 +15,11 @@ Gem::Specification.new do |spec|
   spec.metadata["allowed_push_host"] = ""
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://example.com"
-  spec.metadata["changelog_uri"] = "https://example.com"
+  spec.metadata["source_code_uri"] = "https://github.com/henrahmagix/stimulus_tests"
+  spec.metadata["changelog_uri"] = "https://github.com/henrahmagix/stimulus_tests/releases"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+    Dir["lib/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
   spec.add_dependency "rails", ">= 8.0.2"

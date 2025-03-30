@@ -2,6 +2,8 @@
 
 Test your Stimulus controllers in Rails!
 
+This gem provides a route in test environments by which you can render any HTML with an importmap entry point, and assert on it with the usual browser finders and actions.
+
 ## Usage
 
 Given the default Stimulus controller made by `bin/rails stimulus:install`:
