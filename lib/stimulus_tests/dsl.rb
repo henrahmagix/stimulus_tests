@@ -1,3 +1,4 @@
+require "stimulus_tests/controller_configuration"
 require "stimulus_tests/render_controller"
 
 module StimulusTests
@@ -21,25 +22,20 @@ module StimulusTests
         @layout = layout
       end
 
-      def importmap_entry_point(importmap_entry_point = nil)
-        @importmap_entry_point = importmap_entry_point
+      def import(import = nil)
+        @import = import
       end
     end
 
-    def render_stimulus(html = nil, layout: UNDEFINED, importmap_entry_point: UNDEFINED, &render_block)
+    def render_stimulus(html = nil, layout: UNDEFINED, import: UNDEFINED, &render_block)
       if html && block_given?
         raise ArgumentError, "Both a HTML string or a block are not allowed, please give one or the other. A string is simpler, whilst a block allows you to use view helpers."
       end
 
-      layout                = defined_or_default(layout,                self.class.instance_variable_get(:@layout))
-      importmap_entry_point = defined_or_default(importmap_entry_point, self.class.instance_variable_get(:@importmap_entry_point))
+      layout = defined_or_default(layout, self.class.instance_variable_get(:@layout))
+      import = defined_or_default(import, self.class.instance_variable_get(:@import))
 
-      RenderController._setup(
-        layout:,
-        importmap_entry_point:,
-        html:,
-        render_block:,
-      )
+      RenderController._setup ControllerConfiguration.new(layout:, import:, html:, render_block:)
 
       visit ::Rails.application.config.stimulus_tests.route_path
     end

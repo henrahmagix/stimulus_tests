@@ -21,8 +21,8 @@ RSpec.feature "Stimulus::HelloController" do
     end
   end
 
-  context "with importmap_entry_point and default layout" do
-    importmap_entry_point "application"
+  context "with import and default layout" do
+    import "application"
 
     it "tests the Hello controller with HTML string in an empty layout but with the correct entry point" do
       render_stimulus("<p data-controller=hello>Initial text</p>")
@@ -44,7 +44,7 @@ RSpec.feature "Stimulus::HelloController" do
 
     context "where entry point is controllers" do
       layout nil
-      importmap_entry_point "controllers"
+      import "controllers"
 
       it "tests the Hello controller with HTML string in an empty layout but with the correct entry point" do
         render_stimulus("<p data-controller=hello>Initial text</p>")
@@ -56,7 +56,7 @@ RSpec.feature "Stimulus::HelloController" do
     end
   end
 
-  context "without specific layout and no importmap_entry_point (because the layout has it)" do
+  context "without specific layout and no import (because the layout has it)" do
     layout "application"
 
     it "tests the Hello controller in the application layout where the entry point is already set correctly" do
@@ -88,7 +88,7 @@ RSpec.feature "Stimulus::HelloController" do
     layout "application"
 
     it "tests the Hello controller with entry point" do
-      render_stimulus(layout: nil, importmap_entry_point: "application") do
+      render_stimulus(layout: nil, import: "application") do
         content_tag(:p, "Initial text", data: { controller: "hello" })
       end
 
@@ -98,7 +98,7 @@ RSpec.feature "Stimulus::HelloController" do
     end
 
     it "does not work without the entry point because none of the js is loaded on the page" do
-      render_stimulus(layout: nil, importmap_entry_point: nil) do
+      render_stimulus(layout: nil, import: nil) do
         content_tag(:p, "Initial text", data: { controller: "hello" })
       end
 

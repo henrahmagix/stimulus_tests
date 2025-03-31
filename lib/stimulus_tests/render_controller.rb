@@ -15,14 +15,12 @@ module StimulusTests
 
     class VisitedWithoutSetup < ::StandardError; end
 
-    Preparation = Struct.new(:layout, :importmap_entry_point, :render_block, :html, keyword_init: true)
-
     class << self
-      attr_reader :prepared, :preparation
+      attr_reader :prepared, :configuration
 
-      def _setup(layout:, importmap_entry_point:, render_block:, html:)
+      def _setup(configuration)
         @prepared = true
-        @preparation = Preparation.new(layout:, importmap_entry_point:, render_block:, html:)
+        @configuration = configuration
       end
 
       def _teardown
@@ -39,18 +37,18 @@ module StimulusTests
       end
 
       def insert_js_import
-        return unless prepared_importmap_entry_point
+        return unless prepared_import
 
         insert_position = response.body.index("</head>") || 0
-        js_import       = javascript_importmap_tags(prepared_importmap_entry_point)
+        js_import       = javascript_importmap_tags(prepared_import)
 
         response.body = response.body.insert(insert_position, js_import)
       end
 
-      def prepared_layout                = self.class.preparation.layout || DEFAULT_LAYOUT
-      def prepared_importmap_entry_point = self.class.preparation.importmap_entry_point
-      def prepared_render_block          = self.class.preparation.render_block
-      def prepared_html                  = self.class.preparation.html
+      def prepared_layout       = self.class.configuration.layout || DEFAULT_LAYOUT
+      def prepared_import       = self.class.configuration.import
+      def prepared_render_block = self.class.configuration.render_block
+      def prepared_html         = self.class.configuration.html
 
       def prepared_content
         html = prepared_html || ""

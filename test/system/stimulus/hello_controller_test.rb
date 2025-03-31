@@ -28,7 +28,7 @@ class StimulusHelloControllerWithoutAnythingTest < ApplicationStimulusTestCase
 end
 
 class StimulusHelloControllerWithoutLayoutButWithEntryPointTest < ApplicationStimulusTestCase
-  importmap_entry_point "application"
+  import "application"
 
   test "tests the Hello controller with HTML string in an empty layout but with the correct entry point" do
     render_stimulus("<p data-controller=hello>Initial text</p>")
@@ -89,7 +89,7 @@ class StimulusHelloControllerLayoutOverrideToNilTest < ApplicationStimulusTestCa
   layout "application"
 
   test "tests the Hello controller with entry point" do
-    render_stimulus(layout: nil, importmap_entry_point: "application") do
+    render_stimulus(layout: nil, import: "application") do
       content_tag(:p, "Initial text", data: { controller: "hello" })
     end
 
@@ -101,7 +101,7 @@ class StimulusHelloControllerLayoutOverrideToNilTest < ApplicationStimulusTestCa
   end
 
   test "does not work without the entry point" do
-    render_stimulus(layout: nil, importmap_entry_point: nil) do
+    render_stimulus(layout: nil, import: nil) do
       content_tag(:p, "Initial text", data: { controller: "hello" })
     end
 
