@@ -12,42 +12,74 @@ gem "stimulus_tests", group: :test
 ```
 
 And then execute:
-```bash
+```shell
 $ bundle
 ```
 
 Or install it yourself as:
-```bash
+```shell
 $ gem install stimulus_tests
 ```
 
 ## Usage
 
-There are three parts to this gem:
-1. including the DSL,
-2. setting a `layout` or `importmap_entry_point`, and
-3. calling `render_stimulus` in your test
+See also [Examples](#examples). All the code examples here reference the default Stimulus controller made by `bin/rails stimulus:install` named `hello`, which replaces the element's text with `"Hello World!"`
 
-`render_stimulus` can be called one of two ways:
+First, include the DSL and set an `import` in your test setup scope:
 ```rb
-# 1. with a HTML string
+include StimulusTests::DSL
+
+import "application"
+```
+
+Then call `render_stimulus` before your assertions. It can be called one of two ways:
+```rb
+# 1. With a HTML string.
 render_stimulus '<p data-controller="hello">Initial text</p>'
 
-# 2. with a block that gets evaluated in a View context; the return value is used like the HTML string
+# 2. With a block that gets evaluated in a View context where you can make use of tag helpers.
+# The return value is used like the HTML string.
 render_stimulus do
   content_tag :p, 'Initial text', data: { controller: "hello" }
 end
 ```
 
-The following examples use the default Stimulus controller made by `bin/rails stimulus:install` named `hello`, which replaces the element's text with `"Hello World!"`:
-```js
-// app/javascript/controllers/hello_controller.js
-export default class extends Controller {
-  connect() {
-    this.element.textContent = "Hello World!"
-  }
-}
+Now you can assert on the browser page, like `assert_text "Hello World!" ✨
+
+<br>
+
+Under the hood, `render_stimulus` visits a route defined by this gem (see [Configuration](#configuration)), where the controller action renders `javascript_importmap_tags` with the given `import`, and then the HTML. This is how we get a test browser to load a page with just the JavaScript we need without having to commit such a page to your app.
+
+You can also call `layout` to configure the layout of the controller defined by this gem:
+```rb
+include StimulusTests::DSL
+
+layout "application"
 ```
+
+Most of the time you won't need both `layout` and `import`: if you have a layout with your entry point already, you can use that and you don't need to use `import`.
+
+Defining an `import` entry point and _not_ having a layout reduces the dependencies so you can more clearly unit-test your Stimulus controllers.
+
+They can also be passed into `render_stimulus` to override the previous definitions:
+```rb
+render_stimulus(layout: "my_specific_layout", import: "controllers") do
+  '<p data-controller="hello">Initial text</p>'
+end
+```
+
+**Note:** if you specify both, and the layout already includes the importmap entry point, then it'll get added twice: this gem always renders the given import into the `<head>`.
+
+### Configuration
+
+```rb
+# config/environments/test.rb
+Rails.application.configure do
+  config.stimulus_tests.route_path = "/_stimulus_tests" # this is the default
+end
+```
+
+## Examples
 
 ### Rails tests
 
@@ -60,6 +92,8 @@ class HelloStimulusControllerTest < ApplicationSystemTestCase
   include StimulusTests::DSL
 
   layout "application"
+  # or
+  # import "application"
 
   test "runs my controllers" do
     render_stimulus <<~HTML
@@ -86,7 +120,9 @@ Every example in `spec/stimulus`, `spec/features/stimulus`, and `spec/system/sti
 require "rails_helper"
 
 RSpec.feature "Stimulus::HelloController" do
-  importmap_entry_point "controllers"
+  layout "application"
+  # or
+  # import "application"
 
   it "runs my controllers" do
     render_stimulus <<~HTML
@@ -99,7 +135,7 @@ end
 ```
 
 You can setup any other example individually by ensuring the following:
-- `include StimulusTests::DSL` is added to the example group.
+- `StimulusTests::DSL` is included in the example group.
 - Examples are run with a JavaScript driver.
 
 ## Contributing
