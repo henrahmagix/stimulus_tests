@@ -1,5 +1,5 @@
 module StimulusTests
-  class VisitController < ::ActionController::Base
+  class RenderController < ::ActionController::Base
     DEFAULT_LAYOUT = "stimulus_tests".freeze
 
     before_action :make_default_layout_available

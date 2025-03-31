@@ -1,4 +1,4 @@
-require "stimulus_tests/visit_controller"
+require "stimulus_tests/render_controller"
 
 module StimulusTests
   module DSL
@@ -8,9 +8,9 @@ module StimulusTests
 
     included do
       if respond_to?(:teardown)
-        teardown { VisitController._teardown }
+        teardown { RenderController._teardown }
       elsif defined?(RSpec) && respond_to?(:after)
-        after { VisitController._teardown }
+        after { RenderController._teardown }
       else
         raise MissingTestFramework, "StimulusTests::DSL cannot be included on #{self}: it expects a teardown method to be available."
       end
@@ -34,7 +34,7 @@ module StimulusTests
       layout                = defined_or_default(layout,                self.class.instance_variable_get(:@layout))
       importmap_entry_point = defined_or_default(importmap_entry_point, self.class.instance_variable_get(:@importmap_entry_point))
 
-      VisitController._setup(
+      RenderController._setup(
         layout:,
         importmap_entry_point:,
         html:,
