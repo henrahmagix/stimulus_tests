@@ -5,11 +5,13 @@ module BrowserRSpecHelper
   # that, we specifically assert on the element by its CSS selector.
 
   def assert_application_layout
-    expect(page).to have_css("head title", text: "Dummy", visible: :all)
+    expect(page).to have_css("head title", visible: :all)
+    expect(page).to have_title("Dummy")
   end
 
   def assert_stimulus_layout
-    expect(page).to have_css("head title", text: "Stimulus Tests", visible: :all)
+    expect(page).to have_css("head title", visible: :all)
+    expect(page).to have_title("Stimulus Tests")
   end
 
   def print_console_errors_if_any
