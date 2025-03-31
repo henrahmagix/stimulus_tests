@@ -18,6 +18,13 @@ class StimulusHelloControllerWithoutAnythingTest < ApplicationStimulusTestCase
     refute_text "Hello World!"
     assert_text "Initial text"
   end
+
+  test "can be refreshed" do
+    render_stimulus "Hello"
+    assert_text "Hello"
+    refresh
+    assert_text "Hello"
+  end
 end
 
 class StimulusHelloControllerWithoutLayoutButWithEntryPointTest < ApplicationStimulusTestCase

@@ -26,8 +26,6 @@ module StimulusTests
       end
     end
 
-    # TODO: is there a better method name that `render_stimulus`? Something that clearly explains you can give a block that's
-    # evaluated in a view, and the HTML string it produces will be rendered into the page.
     def render_stimulus(html = nil, layout: UNDEFINED, importmap_entry_point: UNDEFINED, &render_block)
       if html && block_given?
         raise ArgumentError, "Both a HTML string or a block are not allowed, please give one or the other. A string is simpler, whilst a block allows you to use view helpers."
