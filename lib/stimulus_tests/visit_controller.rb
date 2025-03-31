@@ -1,5 +1,20 @@
 module StimulusTests
   class VisitController < ::ActionController::Base
+    DEFAULT_LAYOUT = "stimulus_tests".freeze
+
+    before_action :make_default_layout_available
+    after_action :insert_js_import
+
+    def index
+      unless self.class.prepared
+        raise VisitedWithoutSetup, "The StimulusTests route #{request.path.inspect} was visited without being setup correctly. Please use `render_stimulus` e.g. `render_stimulus('<p>Hello</p>')`"
+      end
+
+      render layout: prepared_layout, html: prepared_content.html_safe
+    end
+
+    class VisitedWithoutSetup < ::StandardError; end
+
     Preparation = Struct.new(:layout, :importmap_entry_point, :render_block, :html, keyword_init: true)
 
     class << self
@@ -15,34 +30,34 @@ module StimulusTests
       end
     end
 
-    class VisitedOutsideStimulusTestError < ::StandardError; end
-
-    def index
-      unless self.class.prepared
-        raise VisitedOutsideStimulusTestError, "The StimulusTests route #{request.path.inspect} was visited without being setup correctly. Please use `render_stimulus` e.g. `render_stimulus { content_tag(:p, 'Some text') }`"
-      end
-
-      view = ::ActionView::OutputBuffer.new
-
-      view.safe_concat importmap_entry_point
-      view.safe_concat render_block
-      view.safe_concat self.class.preparation.html if self.class.preparation.html
-
-      render layout: self.class.preparation.layout, html: view.html_safe
-    end
-
     private
 
-      def importmap_entry_point
-        return "" unless self.class.preparation.importmap_entry_point
+      delegate :javascript_importmap_tags, to: :view_context
 
-        view_context.javascript_importmap_tags(self.class.preparation.importmap_entry_point)
+      def make_default_layout_available
+        append_view_path File.expand_path(File.join(__dir__, "../../app/views"))
       end
 
-      def render_block
-        return "" unless self.class.preparation.render_block
+      def insert_js_import
+        return unless prepared_importmap_entry_point
 
-        view_context.instance_exec(&self.class.preparation.render_block)
+        insert_position = response.body.index("</head>") || 0
+        js_import       = javascript_importmap_tags(prepared_importmap_entry_point)
+
+        response.body = response.body.insert(insert_position, js_import)
+      end
+
+      def prepared_layout                = self.class.preparation.layout || DEFAULT_LAYOUT
+      def prepared_importmap_entry_point = self.class.preparation.importmap_entry_point
+      def prepared_render_block          = self.class.preparation.render_block
+      def prepared_html                  = self.class.preparation.html
+
+      def prepared_content
+        html = prepared_html || ""
+
+        return html unless prepared_render_block
+
+        html + view_context.instance_exec(&prepared_render_block)
       end
   end
 end

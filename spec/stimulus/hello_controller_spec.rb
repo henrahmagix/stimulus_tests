@@ -14,7 +14,7 @@ RSpec.feature "Stimulus::HelloController" do
         content_tag(:p, "Initial text", data: { controller: "hello" })
       end
 
-      refute_application_layout
+      assert_stimulus_layout
 
       assert_no_text "Hello World!"
       assert_text "Initial text"
@@ -27,7 +27,7 @@ RSpec.feature "Stimulus::HelloController" do
     it "tests the Hello controller with HTML string in an empty layout but with the correct entry point" do
       render_stimulus("<p data-controller=hello>Initial text</p>")
 
-      refute_application_layout
+      assert_stimulus_layout
 
       assert_text "Hello World!"
     end
@@ -37,7 +37,7 @@ RSpec.feature "Stimulus::HelloController" do
         content_tag(:p, "Initial text", data: { controller: "hello" })
       end
 
-      refute_application_layout
+      assert_stimulus_layout
 
       assert_text "Hello World!"
     end
@@ -49,7 +49,7 @@ RSpec.feature "Stimulus::HelloController" do
       it "tests the Hello controller with HTML string in an empty layout but with the correct entry point" do
         render_stimulus("<p data-controller=hello>Initial text</p>")
 
-        refute_application_layout
+        assert_stimulus_layout
 
         assert_text "Hello World!"
       end
@@ -92,7 +92,7 @@ RSpec.feature "Stimulus::HelloController" do
         content_tag(:p, "Initial text", data: { controller: "hello" })
       end
 
-      refute_application_layout
+      assert_stimulus_layout
 
       assert_text "Hello World!"
     end
@@ -102,7 +102,7 @@ RSpec.feature "Stimulus::HelloController" do
         content_tag(:p, "Initial text", data: { controller: "hello" })
       end
 
-      refute_application_layout
+      assert_stimulus_layout
 
       assert_no_text "Hello World!"
       assert_text "Initial text"

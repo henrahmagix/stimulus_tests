@@ -3,8 +3,8 @@ module BrowserTestHelper
     assert_title "Dummy"
   end
 
-  def refute_application_layout
-    refute_title "Dummy"
+  def assert_stimulus_layout
+    assert_title "Stimulus Tests"
   end
 
   def print_console_errors_if_any

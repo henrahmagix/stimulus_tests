@@ -8,10 +8,8 @@ module BrowserRSpecHelper
     expect(page).to have_css("head title", text: "Dummy", visible: :all)
   end
 
-  define_negated_matcher :exclude, :include
-
-  def refute_application_layout
-    expect(page).not_to have_css("head title", text: "Dummy", visible: :all)
+  def assert_stimulus_layout
+    expect(page).to have_css("head title", text: "Stimulus Tests", visible: :all)
   end
 
   def print_console_errors_if_any

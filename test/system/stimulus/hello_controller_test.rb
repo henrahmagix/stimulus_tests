@@ -13,7 +13,7 @@ class StimulusHelloControllerWithoutAnythingTest < ApplicationStimulusTestCase
       content_tag(:p, "Initial text", data: { controller: "hello" })
     end
 
-    refute_application_layout
+    assert_stimulus_layout
 
     refute_text "Hello World!"
     assert_text "Initial text"
@@ -26,7 +26,7 @@ class StimulusHelloControllerWithoutLayoutButWithEntryPointTest < ApplicationSti
   test "tests the Hello controller with HTML string in an empty layout but with the correct entry point" do
     render_stimulus("<p data-controller=hello>Initial text</p>")
 
-    refute_application_layout
+    assert_stimulus_layout
 
     assert_text "Hello World!"
   ensure
@@ -38,7 +38,7 @@ class StimulusHelloControllerWithoutLayoutButWithEntryPointTest < ApplicationSti
       content_tag(:p, "Initial text", data: { controller: "hello" })
     end
 
-    refute_application_layout
+    assert_stimulus_layout
 
     assert_text "Hello World!"
   ensure
@@ -86,7 +86,7 @@ class StimulusHelloControllerLayoutOverrideToNilTest < ApplicationStimulusTestCa
       content_tag(:p, "Initial text", data: { controller: "hello" })
     end
 
-    refute_application_layout
+    assert_stimulus_layout
 
     assert_text "Hello World!"
   ensure
@@ -98,7 +98,7 @@ class StimulusHelloControllerLayoutOverrideToNilTest < ApplicationStimulusTestCa
       content_tag(:p, "Initial text", data: { controller: "hello" })
     end
 
-    refute_application_layout
+    assert_stimulus_layout
 
     refute_text "Hello World!"
     assert_text "Initial text"
