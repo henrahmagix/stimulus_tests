@@ -4,7 +4,7 @@ class StimulusHelloControllerWithoutAnythingTest < ApplicationStimulusTestCase
   test "visits the correct path" do
     render_stimulus("<p>Testing</p>")
 
-    assert_equal "/_stimulus_tests", current_path
+    assert_equal "/_hello_my_stimmy_hello_my_dummy", current_path
     assert_text "Testing"
   end
 
