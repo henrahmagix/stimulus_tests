@@ -3,21 +3,22 @@ require "stimulus_tests/render_controller"
 
 module StimulusTests
   module DSL
-    extend ::ActiveSupport::Concern
+    class MissingTestFrameworkError < StandardError; end
 
-    class MissingTestFramework < StandardError; end
-
-    included do
-      if respond_to?(:teardown)
-        teardown { RenderController._teardown }
-      elsif defined?(RSpec) && respond_to?(:after)
-        after { RenderController._teardown }
-      else
-        raise MissingTestFramework, "StimulusTests::DSL cannot be included on #{self}: it expects a teardown method to be available."
+    def self.included(base)
+      base.extend ClassMethods
+      base.class_eval do
+        if respond_to?(:teardown)
+          teardown { RenderController._teardown }
+        elsif defined?(RSpec) && respond_to?(:after)
+          after { RenderController._teardown }
+        else
+          raise MissingTestFrameworkError, "StimulusTests::DSL cannot be included on #{self}: it expects a teardown method to be available."
+        end
       end
     end
 
-    class_methods do
+    module ClassMethods
       def layout(layout)
         @layout = layout
       end
