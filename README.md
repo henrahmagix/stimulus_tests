@@ -143,5 +143,23 @@ Please do! Issues are 👆 up there, and feel free to submit pull-requests for y
 
 I can't guarantee when I'll be able to read and respond, sorry.
 
+### Tests
+
+We have both Minitest and RSpec tests because this gem works with both frameworks.
+
+Unit tests are Minitest-only.
+
+```sh
+bin/test
+```
+```sh
+bin/rspec
+```
+
+To run all the tests together:
+```sh
+bin/test && bin/rspec
+```
+
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

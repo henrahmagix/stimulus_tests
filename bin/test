@@ -1,5 +1,11 @@
 #!/usr/bin/env ruby
 $: << File.expand_path("../test", __dir__)
 
+# Test everything if nothing specified.
+if ARGV.none? { |arg| !arg.start_with?('-') }
+  ARGV << 'test/*_test.rb'
+  ARGV << 'test/**/*_test.rb'
+end
+
 require "bundler/setup"
 require "rails/plugin/test"
