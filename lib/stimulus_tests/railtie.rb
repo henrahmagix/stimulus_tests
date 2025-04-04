@@ -6,7 +6,7 @@ module StimulusTests
     config.after_initialize do |app|
       if Rails.env.test?
         route_path = config.stimulus_tests.route_path
-        app.routes.prepend { get route_path => "stimulus_tests/render#index" }
+        app.routes.append { get route_path => "stimulus_tests/render#index" }
       else
         warn "StimulusTests is only available in the test environment."
       end

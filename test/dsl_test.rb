@@ -37,3 +37,35 @@ class DSLInclusionTest < ActiveSupport::TestCase
     assert perform_teardown.verify
   end
 end
+
+class DSLIntegratedTest < ActiveSupport::TestCase
+  include StimulusTests::DSL
+
+  teardown { Rails.application.reload_routes! }
+
+  def visit(*); end
+
+  test "raises error when route path isn't drawn" do
+    # I can't find a way to *remove* a route that's already been defined so this setup becomes difficult. Thankfully a
+    # broken controller route will raise an error, causing the DSL to not find a match, so that becomes our setup.
+    Rails.application.routes.draw do
+      get StimulusTests::Railtie.config.stimulus_tests.route_path => "unknown#whatever"
+    end
+
+    assert_raises(
+      StimulusTests::DSL::MissingTestRouteError,
+      match: "StimulusTests' route_path has not been drawn to Rails.application #<Dummy::Application"
+    ) { render_stimulus }
+  end
+
+  test "raises error when route path goes elsewhere" do
+    Rails.application.routes.draw do
+      get StimulusTests::Railtie.config.stimulus_tests.route_path => "dummy#index"
+    end
+
+    assert_raises(
+      StimulusTests::DSL::OverriddenTestRouteError,
+      match: 'StimulusTests\' route_path has been overridden by matching a different route first: controller "dummy" should be "stimulus_tests/render".'
+    ) { render_stimulus }
+  end
+end
