@@ -4,6 +4,8 @@ Test your Stimulus controllers in Rails!
 
 This gem provides a route in test environments by which you can render any HTML with an importmap entry point, and assert on it with the usual browser finders and actions.
 
+This supports the latest minor versions from Rails 6.1 to 8.0. See [Appraisals](/Appraisals).
+
 ## Installation
 Add this line to your application's Gemfile:
 
@@ -143,22 +145,30 @@ Please do! Issues are 👆 up there, and feel free to submit pull-requests for y
 
 I can't guarantee when I'll be able to read and respond, sorry.
 
+### Setup
+
+```sh
+bin/appraisal install
+```
+
 ### Tests
 
 We have both Minitest and RSpec tests because this gem works with both frameworks.
 
-Unit tests are Minitest-only.
+This gem's tests are written in Minitest in the `test/` directory. The RSpec tests in `spec/` are only to test the integration of this gem with RSpec.
+
+`bin/test` has been edited to run all tests by default, unless given specific paths.
 
 ```sh
-bin/test
+bin/appraisal bin/test
 ```
 ```sh
-bin/rspec
+bin/appraisal bin/rspec
 ```
 
 To run all the tests together:
 ```sh
-bin/test && bin/rspec
+bin/appraisal bin/test && bin/appraisal bin/rspec
 ```
 
 ## License
