@@ -43,11 +43,20 @@ jobs:
           ruby-version: 3.3.1
           bundler-cache: true
 
+      - name: Install
+        run: bin/appraisal install
+
       - name: Run tests
         env:
           RAILS_ENV: test
           # REDIS_URL: redis://localhost:6379/0
-        run: bin/test
+        run: bin/appraisal bin/test
+
+      - name: Run RSpec tests
+        env:
+          RAILS_ENV: test
+          # REDIS_URL: redis://localhost:6379/0
+        run: bin/appraisal bin/rspec
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
