@@ -10,7 +10,7 @@ This supports the latest minor versions from Rails 6.1 to 8.0. See [Appraisals](
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "stimulus_tests", group: :test
+gem "stimulus_tests", github: "henrahmagix/stimulus_tests", group: :test
 ```
 
 And then execute:
@@ -20,8 +20,10 @@ $ bundle
 
 Or install it yourself as:
 ```shell
-$ gem install stimulus_tests
+$ bundle add stimulus_tests --github henrahmagix/stimulus_tests
 ```
+
+I'm unsure how to `gem install` this from GitHub source. Unfortunately `gem install` instructions will be unavailable until I publish this on RubyGems.
 
 ## Usage
 
