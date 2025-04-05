@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+bin/appraisal rails-8 test/dummy/bin/rails "$@"

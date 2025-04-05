@@ -153,6 +153,15 @@ I can't guarantee when I'll be able to read and respond, sorry.
 bin/appraisal install
 ```
 
+### Dev
+
+There's a custom `bin/rails` script that uses the Rails 8 appraisal and proxies to the test/dummy app.
+```sh
+bin/rails server # in the root folder
+```
+
+The test/dummy app is intentionally sparse: it's just meant to exemplify one simple Stimulus controller to System tests can assert on it.
+
 ### Tests
 
 We have both Minitest and RSpec tests because this gem works with both frameworks.
