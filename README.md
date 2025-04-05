@@ -48,7 +48,7 @@ render_stimulus do
 end
 ```
 
-Now you can assert on the browser page, like `assert_text "Hello World!" ✨
+Now you can assert on the browser page, like `assert_text "Hello World!"` ✨
 
 <br>
 
